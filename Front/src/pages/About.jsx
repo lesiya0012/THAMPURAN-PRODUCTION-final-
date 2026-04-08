@@ -61,78 +61,92 @@ const About = () => {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="bg-black text-center py-24 md:py-32 px-6"
-    >
-  
+  <section
+  ref={sectionRef}
+  className="bg-black text-center py-24 md:py-32 px-6"
+>
 
-      {/* Small title */}
-      <p
-        className={`text-yellow-500 tracking-[0.4em] text-xs md:text-sm mb-6 transition-all duration-1000 ${
-          visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-        }`}
-      >
-        WHO WE ARE
+  {/* LOGO */}
+  <div
+    className={`mb-10 transition-all duration-1000 ${
+      visible ? "opacity-100 scale-100" : "opacity-0 scale-90"
+    }`}
+  >
+    <img
+      src="https://res.cloudinary.com/dvaxpatax/image/upload/v1774374075/IMG_41235_cbnjdh.png"
+      alt="Thampuran Production"
+      className="w-20 md:w-28 mx-auto
+        drop-shadow-[0_0_12px_rgba(250,204,21,0.5)]"
+    />
+  </div>
+
+  {/* Small title */}
+  <p
+    className={`text-yellow-500 tracking-[0.4em] text-xs md:text-sm mb-6 transition-all duration-1000 ${
+      visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+    }`}
+  >
+    WHO WE ARE
+  </p>
+
+  {/* Main Title */}
+  <h2
+    className={`text-white text-3xl sm:text-4xl md:text-6xl font-serif mb-8 transition-all duration-1000 delay-200 ${
+      visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+    }`}
+  >
+    Crafting <span className="text-yellow-500">Cinematic</span> Excellence
+  </h2>
+
+  {/* Description */}
+  <p
+    className={`text-gray-400 max-w-3xl mx-auto text-base md:text-lg leading-relaxed mb-20 transition-all duration-1000 delay-300 ${
+      visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+    }`}
+  >
+    We are a full-service production house driven by a passion for
+    storytelling and visual artistry. From blockbuster-quality films to
+    cutting-edge brand content, we bring every project to life with
+    uncompromising creativity, technical mastery, and an obsession with
+    premium execution.
+  </p>
+
+  {/* Stats */}
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-14 max-w-5xl mx-auto">
+
+    <div className="space-y-3">
+      <h3 className="text-yellow-500 text-5xl md:text-6xl font-serif">
+        <Counter target={150} />
+      </h3>
+      <div className="w-12 h-[1px] bg-yellow-500 mx-auto"></div>
+      <p className="text-gray-400 tracking-widest text-xs md:text-sm">
+        PROJECTS DELIVERED
       </p>
+    </div>
 
-      {/* Main Title */}
-      <h2
-        className={`text-white text-3xl sm:text-4xl md:text-6xl font-serif mb-8 transition-all duration-1000 delay-200 ${
-          visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
-      >
-        Crafting <span className="text-yellow-500">Cinematic</span> Excellence
-      </h2>
-
-      {/* Description */}
-      <p
-        className={`text-gray-400 max-w-3xl mx-auto text-base md:text-lg leading-relaxed mb-20 transition-all duration-1000 delay-300 ${
-          visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
-      >
-        We are a full-service production house driven by a passion for
-        storytelling and visual artistry. From blockbuster-quality films to
-        cutting-edge brand content, we bring every project to life with
-        uncompromising creativity, technical mastery, and an obsession with
-        premium execution.
+    <div className="space-y-3">
+      <h3 className="text-yellow-500 text-5xl md:text-6xl font-serif">
+        <Counter target={50} />
+      </h3>
+      <div className="w-12 h-[1px] bg-yellow-500 mx-auto"></div>
+      <p className="text-gray-400 tracking-widest text-xs md:text-sm">
+        HAPPY CLIENTS
       </p>
+    </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-14 max-w-5xl mx-auto">
+    <div className="space-y-3">
+      <h3 className="text-yellow-500 text-5xl md:text-6xl font-serif">
+        <Counter target={5} />
+      </h3>
+      <div className="w-12 h-[1px] bg-yellow-500 mx-auto"></div>
+      <p className="text-gray-400 tracking-widest text-xs md:text-sm">
+        YEARS EXPERIENCE
+      </p>
+    </div>
 
-        <div className="space-y-3">
-          <h3 className="text-yellow-500 text-5xl md:text-6xl font-serif">
-            <Counter target={150} />
-          </h3>
-          <div className="w-12 h-[1px] bg-yellow-500 mx-auto"></div>
-          <p className="text-gray-400 tracking-widest text-xs md:text-sm">
-            PROJECTS DELIVERED
-          </p>
-        </div>
+  </div>
 
-        <div className="space-y-3">
-          <h3 className="text-yellow-500 text-5xl md:text-6xl font-serif">
-            <Counter target={50} />
-          </h3>
-          <div className="w-12 h-[1px] bg-yellow-500 mx-auto"></div>
-          <p className="text-gray-400 tracking-widest text-xs md:text-sm">
-            HAPPY CLIENTS
-          </p>
-        </div>
-
-        <div className="space-y-3">
-          <h3 className="text-yellow-500 text-5xl md:text-6xl font-serif">
-            <Counter target={5} />
-          </h3>
-          <div className="w-12 h-[1px] bg-yellow-500 mx-auto"></div>
-          <p className="text-gray-400 tracking-widest text-xs md:text-sm">
-            YEARS EXPERIENCE
-          </p>
-        </div>
-
-      </div>
-    </section>
+</section>
   );
 };
 

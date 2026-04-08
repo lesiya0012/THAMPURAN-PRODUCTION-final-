@@ -31,4 +31,4 @@ const mediaSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Portfolio", mediaSchema);
+module.exports = mongoose.model("Media", mediaSchema);

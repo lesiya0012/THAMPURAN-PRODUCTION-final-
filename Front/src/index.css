@@ -1,11 +1,71 @@
+
 @import "tailwindcss";
 
-/* index.css */
+/* ===================== FONTS ===================== */
 @font-face {
-  font-family: 'Brainy';
-  src: url('./assets/SanBrainyRegular.woff') format('woff2'),
-       url('./assets/SanBrainyRegular.woff2') format('woff');
+  font-family: 'San Brainy';
+  src: url('/fonts/SanBrainyRegular.woff2') format('woff2'),
+       url('/fonts/SanBrainyRegular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+/* ===================== HERO SLIDES ===================== */
+.hero-slide {
+  transform: scale(1);
+  transition: transform 6s ease, opacity 1s ease;
+}
+
+.hero-slide.active {
+  animation: smoothZoom 6s ease forwards;
+}
+
+@keyframes smoothZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.15);
+  }
+}
+
+/* ===================== FADE-UP ANIMATION ===================== */
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.3s; }
+.delay-2 { animation-delay: 0.6s; }
+.delay-3 { animation-delay: 0.9s; }
+.delay-4 { animation-delay: 1.2s; }
+.delay-5 { animation-delay: 1.5s; }
+
+/* ===================== AUTOFILL BACKGROUND FIX ===================== */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: white;
+  transition: background-color 9999s ease-in-out 0s;
+  box-shadow: 0 0 0px 1000px black inset;
+  border: 1px solid rgba(234,179,8,0.4);
+}
+
+/* ===================== PLACEHOLDER COLORS ===================== */
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af;
 }

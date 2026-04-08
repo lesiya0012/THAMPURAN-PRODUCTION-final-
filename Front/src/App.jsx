@@ -9,6 +9,7 @@ import WhatsApp from "./components/Whatsapp";
 import ContactForm from "./pages/ContactForm";
 import Preloader from "./components/Preloader";
 import Portfolio from "./pages/Portfolio";
+import Footer from "./components/Footer";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -37,6 +38,7 @@ function App() {
       <Clients />
       <Testimonial />
       <ContactForm />
+      <Footer/>
     </div>
   );
 }
