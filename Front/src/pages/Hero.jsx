@@ -24,29 +24,21 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  const nextSlide = () => {
-    setCurrent((prev) => (prev + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-  };
+  const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
     <section className="relative h-screen w-full overflow-hidden flex items-center justify-center text-center bg-black">
 
       {/* Background Images */}
       {slides.map((img, index) => {
-        if (
-          index !== current &&
-          index !== (current + 1) % slides.length
-        ) return null;
+        if (index !== current && index !== (current + 1) % slides.length) return null;
 
         return (
           <div
             key={index}
             className={`hero-slide absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
-              index === current ? "opacity-100" : "opacity-0"
+              index === current ? "opacity-100 active" : "opacity-0"
             }`}
             style={{
               backgroundImage: `url(${img})`,
@@ -59,9 +51,8 @@ const Hero = () => {
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/70"></div>
 
-      {/* Content (key forces re-animation) */}
-      <div  className="relative z-10 max-w-4xl px-6">
-
+      {/* Content */}
+      <div className="relative z-10 max-w-4xl px-6">
         <p className="fade-up delay-1 text-yellow-500 tracking-[0.5em] text-xs md:text-sm mb-6">
           PREMIUM PRODUCTION HOUSE
         </p>
@@ -84,7 +75,6 @@ const Hero = () => {
         <button className="fade-up delay-5 bg-yellow-500 text-black px-8 py-4 tracking-[0.25em] text-sm hover:bg-yellow-400 transition shadow-[0_0_15px_rgba(250,204,21,0.4)]">
           VIEW OUR WORK
         </button>
-
       </div>
 
       {/* Left Arrow */}
@@ -108,13 +98,10 @@ const Hero = () => {
         {slides.map((_, i) => (
           <div
             key={i}
-            className={`h-[2px] w-10 ${
-              i === current ? "bg-yellow-500" : "bg-gray-500"
-            }`}
+            className={`h-[2px] w-10 ${i === current ? "bg-yellow-500" : "bg-gray-500"}`}
           />
         ))}
       </div>
-
     </section>
   );
 };

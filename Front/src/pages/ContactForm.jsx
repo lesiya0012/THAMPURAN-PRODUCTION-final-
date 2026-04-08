@@ -43,7 +43,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="bg-black text-white py-28 relative">
+    <section className="bg-[#0c0c0c] text-white py-28 relative">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* Heading */}

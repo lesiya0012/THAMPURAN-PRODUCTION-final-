@@ -151,7 +151,7 @@ const Portfolio = () => {
   if (!data.length) return <section className="text-gray-400 text-center py-20">No data found</section>;
 
   return (
-    <section id="portfolio" className="bg-[#0c0c0c] text-white py-16 md:py-24">
+    <section id="portfolio" className="bg-[#000000] text-white py-16 md:py-24">
       {/* HEADER */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}

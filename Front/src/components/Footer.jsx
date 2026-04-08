@@ -16,8 +16,8 @@ export default function Footer() {
               className="w-10 md:w-12
                 drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]"
             />
-            <span className="text-yellow-400 text-lg md:text-xl tracking-[0.25em] font-brainy whitespace-nowrap">
-              THAMPURAN
+            <span className="text-yellow-400 text-lg md:text-2xl tracking-[0.25em] font-brainy whitespace-nowrap">
+              Thampuran Production
             </span>
           </div>
 

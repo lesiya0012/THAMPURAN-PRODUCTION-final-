@@ -10,6 +10,7 @@ import ContactForm from "./pages/ContactForm";
 import Preloader from "./components/Preloader";
 import Portfolio from "./pages/Portfolio";
 import Footer from "./components/Footer";
+import "./index.css";
 
 function App() {
   const [loading, setLoading] = useState(true);

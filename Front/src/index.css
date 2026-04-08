@@ -3,12 +3,17 @@
 
 /* ===================== FONTS ===================== */
 @font-face {
-  font-family: 'San Brainy';
+  font-family: 'Brainy';
   src: url('/fonts/SanBrainyRegular.woff2') format('woff2'),
        url('/fonts/SanBrainyRegular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+/* Use it */
+.font-brainy {
+  font-family: 'San Brainy', sans-serif;
 }
 
 /* ===================== HERO SLIDES ===================== */
@@ -68,4 +73,14 @@ textarea:-webkit-autofill {
 input::placeholder,
 textarea::placeholder {
   color: #9ca3af;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease forwards;
 }
