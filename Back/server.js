@@ -4,6 +4,8 @@ const cors = require("cors");
 const serviceRoutes = require("./routes/services");
 const testimonialRoutes = require('./routes/testimonialRoute');
 const ContactRoute = require('./routes/ContactRoute');
+const Quote = require("./routes/QuoteRoute");
+const Portfolio = require("./routes/PortfolioRoute");
 require("dotenv").config();
 
 const app = express();
@@ -23,6 +25,8 @@ app.get("/", (req, res) => {
 app.use("/api/services", serviceRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/contact', ContactRoute);
+app.use("/api/quote", Quote);
+app.use("/api/portfolio", Portfolio);
 
 
 const PORT = process.env.PORT || 5000;

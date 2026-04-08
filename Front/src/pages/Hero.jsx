@@ -45,28 +45,58 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl px-6">
-        <p className="text-yellow-500 tracking-[0.4em] text-sm mb-6">
+
+        {/* Tagline */}
+        <p className="text-yellow-500 tracking-[0.5em] text-xs md:text-sm mb-6">
           PREMIUM PRODUCTION HOUSE
         </p>
 
-        <h1 className="text-white text-4xl md:text-6xl font-serif">
+        {/* Main Heading */}
+        <h1 className="
+          font-brainy 
+          text-white 
+          text-4xl md:text-6xl 
+          tracking-[0.15em]
+          leading-tight
+        ">
           We Don’t Create Content.
         </h1>
 
-        <h1 className="text-yellow-500 text-4xl md:text-6xl font-serif mt-2">
+        {/* Highlight Line */}
+        <h1 className="
+          font-brainy 
+          text-yellow-400 
+          text-4xl md:text-6xl 
+          mt-3
+          tracking-[0.15em]
+          drop-shadow-[0_0_10px_rgba(250,204,21,0.6)]
+        ">
           We Create Experiences.
         </h1>
 
-        <div className="w-20 h-[2px] bg-yellow-500 mx-auto my-6"></div>
+        {/* Divider */}
+        <div className="w-24 h-[2px] bg-yellow-500 mx-auto my-6"></div>
 
-        <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-10">
+        {/* Description */}
+        <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
           From concept to screen, we craft cinematic stories and visual
           masterpieces that leave lasting impressions.
         </p>
 
-        <button className="bg-yellow-500 text-black px-8 py-4 tracking-widest hover:bg-yellow-400 transition">
+        {/* CTA */}
+        <button className="
+          bg-yellow-500 
+          text-black 
+          px-8 py-4 
+          tracking-[0.25em] 
+          text-sm
+          hover:bg-yellow-400 
+          transition 
+          shadow-[0_0_15px_rgba(250,204,21,0.4)]
+        ">
           VIEW OUR WORK
         </button>
+
       </div>
 
       {/* Left Arrow */}

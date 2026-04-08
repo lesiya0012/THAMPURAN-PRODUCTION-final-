@@ -19,10 +19,10 @@ export default function Preloader() {
 
         {/* Title */}
         <h1 className="mt-8 text-[#D4AF37] text-2xl md:text-3xl 
-                       tracking-[6px] font-serif font-semibold
+                       tracking-[6px]  font-[Brainy] font-semibold
                        drop-shadow-[0_0_10px_rgba(212,175,55,0.7)]
                        animate-[glow_1.5s_ease-in-out_infinite_alternate]">
-          THAMPURAN PRODUCTION
+          Thampuran Production
         </h1>
 
       </div>

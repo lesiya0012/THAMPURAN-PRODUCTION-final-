@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+/* index.css */
+@font-face {
+  font-family: 'Brainy';
+  src: url('./assets/SanBrainyRegular.woff') format('woff2'),
+       url('./assets/SanBrainyRegular.woff2') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
