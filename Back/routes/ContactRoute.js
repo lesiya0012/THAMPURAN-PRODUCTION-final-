@@ -20,10 +20,10 @@ router.post('/', async (req, res) => {
     const contact = new Contact(req.body);
     const saved = await contact.save();
 
-    // Send email
+    // Send email to YOU
     await transporter.sendMail({
       from: `"Website Contact" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, // your inbox
+      to: process.env.EMAIL_USER,
       subject: `New Contact Message from ${req.body.name}`,
       text: `
         Name: ${req.body.name}
@@ -35,6 +35,20 @@ router.post('/', async (req, res) => {
         <p><strong>Name:</strong> ${req.body.name}</p>
         <p><strong>Email:</strong> ${req.body.email}</p>
         <p><strong>Message:</strong> ${req.body.message}</p>
+      `
+    });
+
+    // 🔥 ADD THIS: AUTO REPLY TO CLIENT
+    await transporter.sendMail({
+      from: `"Thampuran Productions" <${process.env.EMAIL_USER}>`,
+      to: req.body.email,
+      subject: "We received your message ",
+      html: `
+        <p>Hi ${req.body.name},</p>
+        <p>Thank you for reaching out to Thampuran Productions.</p>
+        <p>We’ve received your message and will get back to you shortly.</p>
+        <br/>
+        <p>— Thampuran Productions</p>
       `
     });
 

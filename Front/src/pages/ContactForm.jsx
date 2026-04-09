@@ -10,8 +10,9 @@ export default function ContactForm() {
 
   const [showToast, setShowToast] = useState(false);
   const [status, setStatus] = useState("idle"); // idle | loading | sent
+  const [error, setError] = useState(false); // 🔥 NEW
 
-  // 🔥 Load saved data
+  // Load saved data
   useEffect(() => {
     const savedEmail = localStorage.getItem("userEmail");
     const savedName = localStorage.getItem("userName");
@@ -32,6 +33,7 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("loading");
+    setError(false); // 🔥 reset error
 
     try {
       const res = await fetch("http://localhost:5000/api/contact", {
@@ -40,13 +42,13 @@ export default function ContactForm() {
         body: JSON.stringify(formData),
       });
 
+      if (!res.ok) throw new Error("Failed");
+
       await res.json();
 
-      // 🔥 Save name + email
       localStorage.setItem("userEmail", formData.email);
       localStorage.setItem("userName", formData.name);
 
-      // Reset message only (keep name/email for UX)
       setFormData((prev) => ({
         ...prev,
         message: "",
@@ -62,7 +64,14 @@ export default function ContactForm() {
 
     } catch (err) {
       console.error("Error submitting form:", err);
+      setError(true); // 🔥 trigger error toast
+      setShowToast(true);
       setStatus("idle");
+
+      setTimeout(() => {
+        setShowToast(false);
+        setError(false);
+      }, 4000);
     }
   };
 
@@ -70,7 +79,6 @@ export default function ContactForm() {
     <section id="contact" className="bg-[#0c0c0c] text-white py-28 relative">
       <div className="max-w-6xl mx-auto px-6">
 
-        {/* Heading */}
         <div className="text-center mb-16">
           <p className="text-yellow-500 tracking-[0.35em] text-sm mb-4">
             GET IN TOUCH
@@ -81,11 +89,9 @@ export default function ContactForm() {
           </h2>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} autoComplete="on" className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
 
-            {/* Name */}
             <input
               type="text"
               name="name"
@@ -99,7 +105,6 @@ export default function ContactForm() {
               focus:shadow-[0_0_12px_rgba(234,179,8,0.6)] transition-all duration-300"
             />
 
-            {/* Email */}
             <input
               type="email"
               name="email"
@@ -114,7 +119,6 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* Message */}
           <textarea
             name="message"
             rows="6"
@@ -128,7 +132,6 @@ export default function ContactForm() {
             focus:shadow-[0_0_12px_rgba(234,179,8,0.6)] transition-all duration-300"
           />
 
-          {/* Button */}
           <div className="text-center pt-4">
             <button
               type="submit"
@@ -157,7 +160,6 @@ export default function ContactForm() {
           </div>
         </form>
 
-        {/* Social Icons */}
         <div className="flex justify-center gap-8 mt-12 text-yellow-500 text-xl">
           <a href="https://www.instagram.com/thampuran_productions" target="_blank" rel="noopener noreferrer"
             className="hover:scale-125 transition-all duration-300 hover:text-yellow-400">
@@ -181,12 +183,15 @@ export default function ContactForm() {
         </div>
       </div>
 
-      {/* Toast */}
+      {/* 🔥 Toast (Updated) */}
       <div
-        className={`fixed bottom-25 right-16 bg-yellow-500 text-black px-6 py-3 rounded shadow-lg transform transition-all duration-500
+        className={`fixed bottom-25 right-16 px-6 py-3 rounded shadow-lg transform transition-all duration-500
+        ${error ? "bg-red-500 text-white" : "bg-yellow-500 text-black"}
         ${showToast ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"}`}
       >
-        Message sent! We will contact you shortly.
+        {error
+          ? "Message not sent. Please try again later."
+          : "Message sent! We will contact you shortly."}
       </div>
     </section>
   );

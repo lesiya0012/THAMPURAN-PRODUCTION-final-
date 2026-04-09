@@ -13,6 +13,7 @@ export default function QuoteForm({ setShowQuote }) {
 
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false); // 🔥 NEW
 
   // Prevent background scroll + ESC close
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function QuoteForm({ setShowQuote }) {
     };
   }, [setShowQuote]);
 
-  // 🔥 Autofill from localStorage
+  // Autofill
   useEffect(() => {
     const savedName = localStorage.getItem("userName");
     const savedEmail = localStorage.getItem("userEmail");
@@ -51,6 +52,7 @@ export default function QuoteForm({ setShowQuote }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError(false); // 🔥 reset
 
     try {
       const res = await fetch("http://localhost:5000/api/quote", {
@@ -62,7 +64,6 @@ export default function QuoteForm({ setShowQuote }) {
       const data = await res.json();
 
       if (res.ok) {
-        // 🔥 Save user data
         localStorage.setItem("userName", form.name);
         localStorage.setItem("userEmail", form.email);
         localStorage.setItem("userPhone", form.phone);
@@ -79,17 +80,16 @@ export default function QuoteForm({ setShowQuote }) {
           message: "",
         });
 
-        // Close after showing success
         setTimeout(() => {
           setShowQuote(false);
           setSuccess(false);
         }, 3500);
       } else {
-        alert("❌ " + (data.message || "Something went wrong"));
+        setError(true); // 🔥 show error UI
       }
     } catch (err) {
       console.error(err);
-      alert("Server error. Please try again later.");
+      setError(true); // 🔥 show error UI
     } finally {
       setLoading(false);
     }
@@ -110,7 +110,6 @@ export default function QuoteForm({ setShowQuote }) {
         max-h-[80vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           onClick={() => setShowQuote(false)}
           className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl font-bold"
@@ -118,15 +117,13 @@ export default function QuoteForm({ setShowQuote }) {
           ✕
         </button>
 
-        {/* Title */}
         <h2 className="text-2xl md:text-3xl font-bold text-yellow-400 text-center mb-6">
           Let’s Create Something Amazing
         </h2>
 
-        {/* SUCCESS MESSAGE */}
+        {/* SUCCESS */}
         {success ? (
           <div className="flex flex-col items-center justify-center text-center py-10 animate-fadeIn">
-            
             <div className="w-16 h-16 flex items-center justify-center rounded-full bg-yellow-400/20 mb-4">
               <span className="text-yellow-400 text-3xl">✓</span>
             </div>
@@ -138,6 +135,29 @@ export default function QuoteForm({ setShowQuote }) {
             <p className="text-gray-300 text-sm md:text-base max-w-sm">
               Thank you for reaching out. We’ll contact you shortly .
             </p>
+          </div>
+        ) : error ? (
+          /* 🔥 ERROR UI */
+          <div className="flex flex-col items-center justify-center text-center py-10 animate-fadeIn">
+            <div className="w-16 h-16 flex items-center justify-center rounded-full bg-red-500/20 mb-4">
+              <span className="text-red-400 text-3xl">✕</span>
+            </div>
+
+            <h3 className="text-red-400 text-xl md:text-2xl font-semibold mb-2">
+              Quote Failed to Send
+            </h3>
+
+            <p className="text-gray-300 text-sm md:text-base max-w-sm">
+              Please try again later.
+            </p>
+
+            {/* Retry Button */}
+            <button
+              onClick={() => setError(false)}
+              className="mt-6 px-6 py-2 bg-yellow-400 text-black font-semibold rounded hover:bg-yellow-300"
+            >
+              Try Again
+            </button>
           </div>
         ) : (
           /* FORM */
