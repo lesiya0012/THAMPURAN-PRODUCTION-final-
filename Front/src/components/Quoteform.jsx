@@ -14,6 +14,7 @@ export default function QuoteForm({ setShowQuote }) {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -40,7 +41,7 @@ export default function QuoteForm({ setShowQuote }) {
     setError(false);
 
     try {
-      const res = await fetch("http://localhost:5000/api/quote", {
+      const res = await fetch(`${API_URL}/api/quote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

@@ -23,12 +23,13 @@ const Portfolio = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const isFullView = decodeURIComponent(queryParams.get("category") || "");
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   // FETCH DATA
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/portfolio");
+        const res = await axios.get(`${API_URL}/api/portfolio`);
         let portfolio = [];
 
         if (Array.isArray(res.data)) {
@@ -47,7 +48,7 @@ const Portfolio = () => {
     };
 
     fetchPortfolio();
-  }, []);
+  }, [API_URL]);
 
   // SHUFFLE DATA
   useEffect(() => {

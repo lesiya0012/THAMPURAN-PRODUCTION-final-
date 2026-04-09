@@ -27,13 +27,13 @@ const iconMap = {
 
 export default function Services() {
   const [services, setServices] = useState([]);
-
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   useEffect(() => {
-    fetch("http://localhost:5000/api/services")
+    fetch(`${API_URL}/api/services`)
       .then(res => res.json())
       .then(data => setServices(data))
       .catch(err => console.error("Error fetching services:", err));
-  }, []);
+  }, [API_URL]);
 
   return (
     <section id="services" className="bg-[#0c0c0c] text-white py-24">

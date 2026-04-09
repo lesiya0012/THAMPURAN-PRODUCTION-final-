@@ -3,13 +3,14 @@ import { motion } from "framer-motion";
 
 export default function Testimonial() {
   const [testimonials, setTestimonials] = useState([]);
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/testimonials")
+    fetch(`${API_URL}/api/testimonials`)
       .then((res) => res.json())
       .then((data) => setTestimonials(data))
       .catch((err) => console.error(err));
-  }, []);
+  }, [API_URL]);
 
   return (
     <section id="testimonials" className="bg-black text-white py-28">
