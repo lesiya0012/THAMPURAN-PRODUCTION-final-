@@ -14,7 +14,7 @@ export default function QuoteForm({ setShowQuote }) {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   useEffect(() => {
     document.body.style.overflow = "hidden";

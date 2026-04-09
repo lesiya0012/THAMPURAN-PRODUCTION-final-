@@ -11,7 +11,7 @@ export default function ContactForm() {
   const [showToast, setShowToast] = useState(false);
   const [status, setStatus] = useState("idle"); // idle | loading | sent
   const [error, setError] = useState(false);
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
