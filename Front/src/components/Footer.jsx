@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-5 py-10">
         
         {/* Top Row */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           
           {/* LEFT: Logo + Name */}
           <div className="flex items-center gap-3">
@@ -15,7 +15,7 @@ export default function Footer() {
               alt="Thampuran Productions"
               className="w-10 md:w-12 drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]"
             />
-            <span className="text-yellow-400 text-lg md:text-2xl tracking-[0.25em] font-brainy whitespace-nowrap">
+            <span className="text-yellow-400 text-lg md:text-3xl tracking-[0.25em] font-brainy whitespace-nowrap">
               Thampuran Production
             </span>
           </div>

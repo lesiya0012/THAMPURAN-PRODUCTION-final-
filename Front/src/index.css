@@ -11,6 +11,10 @@
   font-display: swap;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Use it */
 .font-brainy {
   font-family: 'San Brainy', sans-serif;
@@ -59,14 +63,22 @@
 .delay-5 { animation-delay: 1.5s; }
 
 /* ===================== AUTOFILL BACKGROUND FIX ===================== */
+/* 🔥 Fix Chrome autofill ugly yellow background */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-textarea:-webkit-autofill {
-  -webkit-text-fill-color: white;
-  transition: background-color 9999s ease-in-out 0s;
-  box-shadow: 0 0 0px 1000px black inset;
-  border: 1px solid rgba(234,179,8,0.4);
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #27272a inset !important; /* match bg-zinc-800 */
+  box-shadow: 0 0 0px 1000px #27272a inset !important;
+  -webkit-text-fill-color: #ffffff !important; /* text white */
+  border: 1px solid #3f3f46 !important; /* match border-zinc-700 */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* 🔥 Optional: remove weird glow */
+input:-webkit-autofill:focus {
+  border: 1px solid #facc15 !important; /* yellow focus (optional) */
 }
 
 /* ===================== PLACEHOLDER COLORS ===================== */
@@ -102,4 +114,14 @@ textarea::placeholder {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #eab308;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.8;
+  transition: 0.2s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }

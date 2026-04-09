@@ -13,9 +13,8 @@ export default function QuoteForm({ setShowQuote }) {
 
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false); // 🔥 NEW
+  const [error, setError] = useState(false);
 
-  // Prevent background scroll + ESC close
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -31,20 +30,6 @@ export default function QuoteForm({ setShowQuote }) {
     };
   }, [setShowQuote]);
 
-  // Autofill
-  useEffect(() => {
-    const savedName = localStorage.getItem("userName");
-    const savedEmail = localStorage.getItem("userEmail");
-    const savedPhone = localStorage.getItem("userPhone");
-
-    setForm((prev) => ({
-      ...prev,
-      name: savedName || "",
-      email: savedEmail || "",
-      phone: savedPhone || "",
-    }));
-  }, []);
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -52,7 +37,7 @@ export default function QuoteForm({ setShowQuote }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(false); // 🔥 reset
+    setError(false);
 
     try {
       const res = await fetch("http://localhost:5000/api/quote", {
@@ -61,35 +46,35 @@ export default function QuoteForm({ setShowQuote }) {
         body: JSON.stringify(form),
       });
 
-      const data = await res.json();
+      if (!res.ok) throw new Error("Failed");
 
-      if (res.ok) {
-        localStorage.setItem("userName", form.name);
-        localStorage.setItem("userEmail", form.email);
-        localStorage.setItem("userPhone", form.phone);
+      await res.json();
 
-        setSuccess(true);
+      // ✅ still save for future browser suggestions
+      localStorage.setItem("userName", form.name);
+      localStorage.setItem("userEmail", form.email);
+      localStorage.setItem("userPhone", form.phone);
 
-        setForm({
-          name: "",
-          email: "",
-          phone: "",
-          projectType: "",
-          budget: "",
-          timeline: "",
-          message: "",
-        });
+      setSuccess(true);
 
-        setTimeout(() => {
-          setShowQuote(false);
-          setSuccess(false);
-        }, 3500);
-      } else {
-        setError(true); // 🔥 show error UI
-      }
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        projectType: "",
+        budget: "",
+        timeline: "",
+        message: "",
+      });
+
+      setTimeout(() => {
+        setShowQuote(false);
+        setSuccess(false);
+      }, 3500);
+
     } catch (err) {
       console.error(err);
-      setError(true); // 🔥 show error UI
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -121,7 +106,6 @@ export default function QuoteForm({ setShowQuote }) {
           Let’s Create Something Amazing
         </h2>
 
-        {/* SUCCESS */}
         {success ? (
           <div className="flex flex-col items-center justify-center text-center py-10 animate-fadeIn">
             <div className="w-16 h-16 flex items-center justify-center rounded-full bg-yellow-400/20 mb-4">
@@ -137,7 +121,6 @@ export default function QuoteForm({ setShowQuote }) {
             </p>
           </div>
         ) : error ? (
-          /* 🔥 ERROR UI */
           <div className="flex flex-col items-center justify-center text-center py-10 animate-fadeIn">
             <div className="w-16 h-16 flex items-center justify-center rounded-full bg-red-500/20 mb-4">
               <span className="text-red-400 text-3xl">✕</span>
@@ -151,7 +134,6 @@ export default function QuoteForm({ setShowQuote }) {
               Please try again later.
             </p>
 
-            {/* Retry Button */}
             <button
               onClick={() => setError(false)}
               className="mt-6 px-6 py-2 bg-yellow-400 text-black font-semibold rounded hover:bg-yellow-300"
@@ -160,8 +142,8 @@ export default function QuoteForm({ setShowQuote }) {
             </button>
           </div>
         ) : (
-          /* FORM */
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} autoComplete="on" className="space-y-4">
+            
             <input
               type="text"
               name="name"
@@ -185,7 +167,7 @@ export default function QuoteForm({ setShowQuote }) {
             />
 
             <input
-              type="text"
+              type="tel"
               name="phone"
               autoComplete="tel"
               placeholder="Phone Number"
@@ -232,6 +214,7 @@ export default function QuoteForm({ setShowQuote }) {
             <textarea
               name="message"
               placeholder="Tell us about your project..."
+              autoComplete="off"
               value={form.message}
               onChange={handleChange}
               required

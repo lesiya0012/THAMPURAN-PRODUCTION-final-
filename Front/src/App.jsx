@@ -33,7 +33,8 @@ function App() {
     <div>
       {/* Pass setShowQuote to Navbar */}
       <Navbar setShowQuote={setShowQuote} />
-      <Hero />
+      <Hero setShowQuote={setShowQuote} />
+ 
       <WhatsApp />
       <About />
       <Services />

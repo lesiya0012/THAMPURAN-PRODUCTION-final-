@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaInstagram, FaYoutube, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 export default function ContactForm() {
@@ -10,21 +10,7 @@ export default function ContactForm() {
 
   const [showToast, setShowToast] = useState(false);
   const [status, setStatus] = useState("idle"); // idle | loading | sent
-  const [error, setError] = useState(false); // 🔥 NEW
-
-  // Load saved data
-  useEffect(() => {
-    const savedEmail = localStorage.getItem("userEmail");
-    const savedName = localStorage.getItem("userName");
-
-    if (savedEmail || savedName) {
-      setFormData((prev) => ({
-        ...prev,
-        email: savedEmail || "",
-        name: savedName || "",
-      }));
-    }
-  }, []);
+  const [error, setError] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,7 +19,7 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("loading");
-    setError(false); // 🔥 reset error
+    setError(false);
 
     try {
       const res = await fetch("http://localhost:5000/api/contact", {
@@ -46,13 +32,15 @@ export default function ContactForm() {
 
       await res.json();
 
+      // ✅ Save for browser memory (but NOT auto-fill on load)
       localStorage.setItem("userEmail", formData.email);
       localStorage.setItem("userName", formData.name);
 
-      setFormData((prev) => ({
-        ...prev,
+      setFormData({
+        name: "",
+        email: "",
         message: "",
-      }));
+      });
 
       setStatus("sent");
       setShowToast(true);
@@ -64,7 +52,7 @@ export default function ContactForm() {
 
     } catch (err) {
       console.error("Error submitting form:", err);
-      setError(true); // 🔥 trigger error toast
+      setError(true);
       setShowToast(true);
       setStatus("idle");
 
@@ -89,6 +77,7 @@ export default function ContactForm() {
           </h2>
         </div>
 
+        {/* ✅ autocomplete ON so browser suggestions work */}
         <form onSubmit={handleSubmit} autoComplete="on" className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
 
@@ -183,7 +172,7 @@ export default function ContactForm() {
         </div>
       </div>
 
-      {/* 🔥 Toast (Updated) */}
+      {/* Toast */}
       <div
         className={`fixed bottom-25 right-16 px-6 py-3 rounded shadow-lg transform transition-all duration-500
         ${error ? "bg-red-500 text-white" : "bg-yellow-500 text-black"}

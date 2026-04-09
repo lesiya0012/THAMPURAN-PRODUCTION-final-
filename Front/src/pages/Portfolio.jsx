@@ -277,10 +277,23 @@ const Portfolio = () => {
                   </button>
                 ) : (
                   <button
-                    onClick={() => {
-                      navigate(`/portfolio`);
-                      setActiveCategory("All");
-                    }}
+                  onClick={() => {
+  navigate(`/portfolio`);
+  setActiveCategory("All");
+
+  requestAnimationFrame(() => {
+    const section = document.getElementById("portfolio");
+    if (section) {
+      const yOffset = -20; // small offset for nicer positioning
+      const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+    }
+  });
+}}
                     className="px-6 md:px-8 py-2 md:py-3 text-xs md:text-sm uppercase tracking-widest border border-yellow-500 text-yellow-500 transition-all duration-300 hover:bg-yellow-500 hover:text-black"
                   >
                     ← View Less

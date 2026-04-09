@@ -37,6 +37,28 @@ export default function Clients() {
         </div>
       </div>
 
+      {/* Speed Control */}
+      <style jsx>{`
+        .marquee {
+          animation: scroll 18s linear infinite;
+        }
+
+        @media (max-width: 768px) {
+          .marquee {
+            animation: scroll 10s linear infinite;
+          }
+        }
+
+        @keyframes scroll {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+      `}</style>
+
     </section>
   );
 }
