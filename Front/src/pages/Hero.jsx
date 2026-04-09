@@ -46,8 +46,7 @@ const Hero = ({ setShowQuote }) => {
 }, []);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden flex items-center justify-center text-center bg-black">
-
+<section className="relative h-screen w-full pt-20 md:pt-24 overflow-hidden flex items-center justify-center text-center bg-black">
       {/* Background Images */}
       {slides.map((img, index) => (
         <div
