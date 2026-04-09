@@ -9,7 +9,7 @@ export default function Preloader() {
         <div className="relative">
           <img
             src="https://res.cloudinary.com/dvaxpatax/image/upload/v1774374075/IMG_41235_cbnjdh.png"
-            alt="Thampuran Production"
+            alt="Thampuran Productions"
             className="w-24 sm:w-28 md:w-36 mx-auto 
             animate-[logoAnim_1.8s_cubic-bezier(0.22,1,0.36,1)_forwards,glowPulse_2.5s_ease-in-out_1.5s_infinite_alternate] 
             drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] contrast-110 brightness-110"
@@ -24,14 +24,14 @@ export default function Preloader() {
           tracking-[0.1em] sm:tracking-[0.15em] 
           text-yellow-600 opacity-80 blur-[0.6px] 
           [filter:drop-shadow(0_0_12px_rgba(250,204,21,0.8))]">
-            Thampuran Production
+            Thampuran Productions
           </h1>
 
           {/* Main text */}
           <h1 className="relative font-brainy text-3xl sm:text-4xl md:text-6xl 
           tracking-[0.1em] sm:tracking-[0.15em] 
           text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]">
-            Thampuran Production
+            Thampuran Productions
           </h1>
         </div>
       </div>

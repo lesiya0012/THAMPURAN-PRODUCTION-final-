@@ -38,7 +38,7 @@ const Navbar = () => {
   className="font-brainy text-xl md:text-2xl tracking-[0.12em] text-yellow-400 
   drop-shadow-[0_0_6px_rgba(250,204,21,0.5)] cursor-pointer transition-transform duration-500 hover:scale-105"
 >
-  Thampuran Production
+  Thampuran Productions
 </h1>
 
           {/* DESKTOP MENU */}

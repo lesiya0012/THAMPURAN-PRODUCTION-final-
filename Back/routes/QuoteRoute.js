@@ -1,17 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const Quote = require("../models/Quote");
-const nodemailer = require("nodemailer");
 require("dotenv").config();
+const sgMail = require("@sendgrid/mail");
 
-// EMAIL CONFIG
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+// ✅ SendGrid config
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // POST QUOTE
 router.post("/", async (req, res) => {
@@ -40,9 +34,9 @@ router.post("/", async (req, res) => {
     const savedQuote = await newQuote.save();
 
     // ✅ SEND EMAIL TO YOU
-    await transporter.sendMail({
-      from: `"Quote Request" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
+    await sgMail.send({
+      to: process.env.EMAIL_USER, // your email
+      from: process.env.EMAIL_USER, // must be verified in SendGrid
       subject: `🎬 New Quote - ${projectType}`,
       html: `
         <div style="font-family: Arial; padding: 20px;">
@@ -67,9 +61,9 @@ router.post("/", async (req, res) => {
     });
 
     // ✅ AUTO REPLY TO CLIENT
-    await transporter.sendMail({
-      from: `"Thampuran Productions" <${process.env.EMAIL_USER}>`,
+    await sgMail.send({
       to: email,
+      from: process.env.EMAIL_USER, // verified SendGrid email
       subject: "We received your quote request 🎬",
       html: `
         <p>Hi ${name},</p>

@@ -206,10 +206,12 @@ export default function QuoteForm({ setShowQuote }) {
             <input
               type="date"
               name="timeline"
+              placeholder="MM/DD/YYYY"
               value={form.timeline}
               onChange={handleChange}
               required
               className={inputClasses}
+               min={new Date().toISOString().split("T")[0]} // disables past dates
             />
 
             <textarea

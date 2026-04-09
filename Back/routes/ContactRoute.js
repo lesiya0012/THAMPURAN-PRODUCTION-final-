@@ -1,17 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Contact = require('../models/Contact');
-const nodemailer = require('nodemailer');
 require('dotenv').config();
+const sgMail = require('@sendgrid/mail');
 
-// Configure transporter (use Gmail + App Passwords)
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER, // your Gmail address
-    pass: process.env.EMAIL_PASS  // your Gmail app password
-  }
-});
+// ✅ SendGrid config
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // POST new contact message
 router.post('/', async (req, res) => {
@@ -21,9 +15,9 @@ router.post('/', async (req, res) => {
     const saved = await contact.save();
 
     // Send email to YOU
-    await transporter.sendMail({
-      from: `"Website Contact" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
+    await sgMail.send({
+      to: process.env.EMAIL_USER, // your email
+      from: process.env.EMAIL_USER, // must be verified in SendGrid
       subject: `New Contact Message from ${req.body.name}`,
       text: `
         Name: ${req.body.name}
@@ -38,11 +32,11 @@ router.post('/', async (req, res) => {
       `
     });
 
-    // 🔥 ADD THIS: AUTO REPLY TO CLIENT
-    await transporter.sendMail({
-      from: `"Thampuran Productions" <${process.env.EMAIL_USER}>`,
+    // AUTO REPLY TO CLIENT
+    await sgMail.send({
       to: req.body.email,
-      subject: "We received your message ",
+      from: process.env.EMAIL_USER, // verified SendGrid email
+      subject: "We received your message",
       html: `
         <p>Hi ${req.body.name},</p>
         <p>Thank you for reaching out to Thampuran Productions.</p>
@@ -54,6 +48,7 @@ router.post('/', async (req, res) => {
 
     res.status(201).json({ message: "Message saved and email sent!", saved });
   } catch (err) {
+    console.error(err);
     res.status(400).json({ message: err.message });
   }
 });
