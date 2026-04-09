@@ -84,3 +84,22 @@ textarea::placeholder {
 .animate-fadeIn {
   animation: fadeIn 1s ease forwards;
 }
+
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #facc15; /* yellow */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #eab308;
+}

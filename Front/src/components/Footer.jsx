@@ -13,8 +13,7 @@ export default function Footer() {
             <img
               src="https://res.cloudinary.com/dvaxpatax/image/upload/v1774374075/IMG_41235_cbnjdh.png"
               alt="Thampuran Productions"
-              className="w-10 md:w-12
-                drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]"
+              className="w-10 md:w-12 drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]"
             />
             <span className="text-yellow-400 text-lg md:text-2xl tracking-[0.25em] font-brainy whitespace-nowrap">
               Thampuran Production
@@ -23,18 +22,10 @@ export default function Footer() {
 
           {/* CENTER: Navigation */}
           <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-xs md:text-sm tracking-[0.25em] uppercase">
-            <a href="#" className="hover:text-yellow-400 transition duration-300">
-              About
-            </a>
-            <a href="#" className="hover:text-yellow-400 transition duration-300">
-              Services
-            </a>
-            <a href="#" className="hover:text-yellow-400 transition duration-300">
-              Portfolio
-            </a>
-            <a href="#" className="hover:text-yellow-400 transition duration-300">
-              Contact
-            </a>
+            <a href="#" className="hover:text-yellow-400 transition duration-300">About</a>
+            <a href="#" className="hover:text-yellow-400 transition duration-300">Services</a>
+            <a href="#" className="hover:text-yellow-400 transition duration-300">Portfolio</a>
+            <a href="#" className="hover:text-yellow-400 transition duration-300">Contact</a>
           </div>
 
           {/* RIGHT: Social Icons */}

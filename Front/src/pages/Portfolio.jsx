@@ -293,32 +293,55 @@ const Portfolio = () => {
       </div>
 
       {/* MODAL */}
-      {selectedGroup && (
-        <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
+{selectedGroup && (
+  <div
+    className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
+    onTouchStart={handleTouchStart}
+    onTouchEnd={handleTouchEnd}
+  >
+    <button
+      onClick={() => setSelectedGroup(null)}
+      className="absolute top-4 right-4 text-white text-2xl"
+    >
+      ✕
+    </button>
+
+    {selectedGroup.length > 1 && (
+      <>
+        <button onClick={prevImage} className="absolute left-4 text-3xl">
+          ‹
+        </button>
+        <button onClick={nextImage} className="absolute right-4 text-3xl">
+          ›
+        </button>
+      </>
+    )}
+
+    <div className="flex flex-col items-center">
+      {selectedGroup[currentIndex]?.type === "video" ? (
+        <video
+          controls
+          autoPlay
+          muted
+          className="max-h-[70vh] max-w-[95vw]"
         >
-          <button onClick={() => setSelectedGroup(null)} className="absolute top-4 right-4 text-white text-2xl">✕</button>
-
-          {selectedGroup.length > 1 && (
-            <>
-              <button onClick={prevImage} className="absolute left-4 text-3xl">‹</button>
-              <button onClick={nextImage} className="absolute right-4 text-3xl">›</button>
-            </>
-          )}
-
-          <div className="flex flex-col items-center">
-            {selectedGroup[currentIndex]?.type === "video" ? (
-              <video controls className="max-h-[70vh] max-w-[95vw]">
-                <source src={selectedGroup[currentIndex]?.url} />
-              </video>
-            ) : (
-              <img src={selectedGroup[currentIndex]?.url} alt="" className="max-h-[70vh] max-w-[95vw] object-contain" />
-            )}
-          </div>
-        </div>
+          <source src={selectedGroup[currentIndex]?.url} />
+        </video>
+      ) : (
+        <img
+          src={selectedGroup[currentIndex]?.url}
+          alt=""
+          className="max-h-[70vh] max-w-[95vw] object-contain"
+        />
       )}
+
+      {/* Description or fallback to groupId */}
+      <p className="text-gray-400 text-sm mt-2 text-center max-w-[90vw]">
+        {selectedGroup[currentIndex]?.description || selectedGroup[currentIndex]?.groupId}
+      </p>
+    </div>
+  </div>
+)}
     </section>
   );
 };

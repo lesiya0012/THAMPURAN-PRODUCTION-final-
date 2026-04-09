@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function Quoteform({ setShowQuote }) {
+export default function QuoteForm({ setShowQuote }) {
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -8,11 +8,41 @@ export default function Quoteform({ setShowQuote }) {
     projectType: "",
     budget: "",
     timeline: "",
-    message: ""
+    message: "",
   });
 
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Prevent background scroll + ESC close
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    const handleEsc = (e) => {
+      if (e.key === "Escape") setShowQuote(false);
+    };
+
+    window.addEventListener("keydown", handleEsc);
+
+    return () => {
+      document.body.style.overflow = "auto";
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [setShowQuote]);
+
+  // 🔥 Autofill from localStorage
+  useEffect(() => {
+    const savedName = localStorage.getItem("userName");
+    const savedEmail = localStorage.getItem("userEmail");
+    const savedPhone = localStorage.getItem("userPhone");
+
+    setForm((prev) => ({
+      ...prev,
+      name: savedName || "",
+      email: savedEmail || "",
+      phone: savedPhone || "",
+    }));
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,15 +55,18 @@ export default function Quoteform({ setShowQuote }) {
     try {
       const res = await fetch("http://localhost:5000/api/quote", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(form)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
 
       const data = await res.json();
 
       if (res.ok) {
+        // 🔥 Save user data
+        localStorage.setItem("userName", form.name);
+        localStorage.setItem("userEmail", form.email);
+        localStorage.setItem("userPhone", form.phone);
+
         setSuccess(true);
 
         setForm({
@@ -43,88 +76,102 @@ export default function Quoteform({ setShowQuote }) {
           projectType: "",
           budget: "",
           timeline: "",
-          message: ""
+          message: "",
         });
 
-        // ⏳ auto close after 2 sec
+        // Close after showing success
         setTimeout(() => {
           setShowQuote(false);
           setSuccess(false);
-        }, 2000);
+        }, 3500);
       } else {
-        alert("❌ " + data.message);
+        alert("❌ " + (data.message || "Something went wrong"));
       }
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      alert("Server error. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
+  const inputClasses =
+    "w-full p-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-400";
+
   return (
-    // 🔥 OVERLAY
     <div
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm"
       onClick={() => setShowQuote(false)}
     >
-      {/* 🔥 MODAL BOX */}
       <div
-        className="relative w-full max-w-lg bg-zinc-900 border border-zinc-700 rounded-2xl shadow-xl p-8 animate-fadeIn"
+        className="relative w-[90%] sm:w-full max-w-md md:max-w-lg 
+        bg-zinc-900 border border-zinc-700 rounded-xs shadow-2xl 
+        p-5 sm:p-6 md:p-8 animate-fadeIn 
+        max-h-[80vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* ❌ CLOSE */}
+        {/* Close Button */}
         <button
           onClick={() => setShowQuote(false)}
-          className="absolute top-3 right-4 text-gray-400 hover:text-white text-xl"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl font-bold"
         >
           ✕
         </button>
 
-        <h2 className="text-2xl font-bold text-yellow-400 text-center mb-6">
-           Let’s Create Something Amazing
+        {/* Title */}
+        <h2 className="text-2xl md:text-3xl font-bold text-yellow-400 text-center mb-6">
+          Let’s Create Something Amazing
         </h2>
 
-        {/* ✅ SUCCESS STATE */}
+        {/* SUCCESS MESSAGE */}
         {success ? (
-          <div className="text-center py-10 animate-fadeIn">
-            <p className="text-yellow-400 text-xl font-semibold mb-2">
-              ✅ Quote Received!
-            </p>
-            <p className="text-gray-300 text-sm">
-              We will contact you shortly.
+          <div className="flex flex-col items-center justify-center text-center py-10 animate-fadeIn">
+            
+            <div className="w-16 h-16 flex items-center justify-center rounded-full bg-yellow-400/20 mb-4">
+              <span className="text-yellow-400 text-3xl">✓</span>
+            </div>
+
+            <h3 className="text-yellow-400 text-xl md:text-2xl font-semibold mb-2">
+              Quote Received!
+            </h3>
+
+            <p className="text-gray-300 text-sm md:text-base max-w-sm">
+              Thank you for reaching out. We’ll contact you shortly .
             </p>
           </div>
         ) : (
+          /* FORM */
           <form onSubmit={handleSubmit} className="space-y-4">
-            
             <input
               type="text"
               name="name"
+              autoComplete="name"
               placeholder="Your Name"
               value={form.name}
               onChange={handleChange}
               required
-              className="w-full p-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className={inputClasses}
             />
 
             <input
               type="email"
               name="email"
+              autoComplete="email"
               placeholder="Your Email"
               value={form.email}
               onChange={handleChange}
               required
-              className="w-full p-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className={inputClasses}
             />
 
             <input
               type="text"
               name="phone"
+              autoComplete="tel"
               placeholder="Phone Number"
               value={form.phone}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className={inputClasses}
             />
 
             <select
@@ -132,7 +179,7 @@ export default function Quoteform({ setShowQuote }) {
               value={form.projectType}
               onChange={handleChange}
               required
-              className="w-full p-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className={inputClasses}
             >
               <option value="">Select Project Type</option>
               <option>Ad Shoot</option>
@@ -150,7 +197,7 @@ export default function Quoteform({ setShowQuote }) {
               placeholder="Budget (Optional)"
               value={form.budget}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className={inputClasses}
             />
 
             <input
@@ -159,7 +206,7 @@ export default function Quoteform({ setShowQuote }) {
               value={form.timeline}
               onChange={handleChange}
               required
-              className="w-full p-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className={inputClasses}
             />
 
             <textarea
@@ -168,7 +215,7 @@ export default function Quoteform({ setShowQuote }) {
               value={form.message}
               onChange={handleChange}
               required
-              className="w-full p-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 h-28 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className={`${inputClasses} h-28 resize-none`}
             />
 
             <button
@@ -178,7 +225,6 @@ export default function Quoteform({ setShowQuote }) {
             >
               {loading ? "Submitting..." : "Submit Quote"}
             </button>
-
           </form>
         )}
       </div>

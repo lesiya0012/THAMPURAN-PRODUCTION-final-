@@ -10,16 +10,17 @@ import ContactForm from "./pages/ContactForm";
 import Preloader from "./components/Preloader";
 import Portfolio from "./pages/Portfolio";
 import Footer from "./components/Footer";
+import Quoteform from "./components/Quoteform"; // import the modal
 import "./index.css";
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const [showQuote, setShowQuote] = useState(false); // modal state
 
   useEffect(() => {
-    // Simulate loading time (or wait for API/data)
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 4000); // 1.5 seconds
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -30,16 +31,20 @@ function App() {
 
   return (
     <div>
-      <Navbar />
+      {/* Pass setShowQuote to Navbar */}
+      <Navbar setShowQuote={setShowQuote} />
       <Hero />
       <WhatsApp />
       <About />
       <Services />
-      <Portfolio/>
+      <Portfolio />
       <Clients />
       <Testimonial />
       <ContactForm />
-      <Footer/>
+      <Footer />
+
+      {/* Render Quoteform only when showQuote is true */}
+      {showQuote && <Quoteform setShowQuote={setShowQuote} />}
     </div>
   );
 }

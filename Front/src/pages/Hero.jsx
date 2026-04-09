@@ -6,7 +6,7 @@ const optimizeImage = (url) => {
   return url.replace("/upload/", "/upload/w_1600,f_auto,q_auto/");
 };
 
-const Hero = () => {
+const Hero = ({ setShowQuote }) => {
   const slides = [
     optimizeImage("https://res.cloudinary.com/dvaxpatax/image/upload/v1772982982/3c9cca3a-f89b-4c65-9c20-701641af41b0_neeke6.jpg"),
     optimizeImage("https://res.cloudinary.com/dvaxpatax/image/upload/v1772982982/0dd5fcfb-f9b7-4480-a01f-0146ddca725a_l6vrk5.jpg"),
@@ -27,6 +27,14 @@ const Hero = () => {
   const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
+  // 🔥 Scroll to portfolio
+  const goToPortfolio = () => {
+    const section = document.getElementById("portfolio");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative h-screen w-full overflow-hidden flex items-center justify-center text-center bg-black">
 
@@ -37,8 +45,8 @@ const Hero = () => {
         return (
           <div
             key={index}
-            className={`hero-slide absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
-              index === current ? "opacity-100 active" : "opacity-0"
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
+              index === current ? "opacity-100" : "opacity-0"
             }`}
             style={{
               backgroundImage: `url(${img})`,
@@ -72,9 +80,29 @@ const Hero = () => {
           masterpieces that leave lasting impressions.
         </p>
 
-        <button className="fade-up delay-5 bg-yellow-500 text-black px-8 py-4 tracking-[0.25em] text-sm hover:bg-yellow-400 transition shadow-[0_0_15px_rgba(250,204,21,0.4)]">
-          VIEW OUR WORK
-        </button>
+        {/* 🔥 BUTTON GROUP */}
+        <div className="fade-up delay-5 flex flex-col sm:flex-row items-center justify-center gap-6">
+          
+          {/* VIEW WORK */}
+          <button
+            onClick={goToPortfolio}
+            className="border border-yellow-500 text-yellow-400 px-6 py-4 tracking-[0.25em] text-sm 
+            hover:bg-yellow-500 hover:text-black transition 
+            hover:shadow-[0_0_20px_rgba(250,204,21,0.5)]"
+          >
+            VIEW OUR WORK
+          </button>
+
+          {/* GET A QUOTE */}
+          <button
+            onClick={() => setShowQuote(true)}
+            className="border border-yellow-500 text-yellow-400 px-6 py-4 tracking-[0.25em] text-sm 
+            hover:bg-yellow-500 hover:text-black transition 
+            hover:shadow-[0_0_20px_rgba(250,204,21,0.5)]"
+          >
+            GET A QUOTE
+          </button>
+        </div>
       </div>
 
       {/* Left Arrow */}

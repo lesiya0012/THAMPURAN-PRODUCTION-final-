@@ -61,7 +61,7 @@ const About = () => {
   }, []);
 
   return (
-  <section
+  <section id="about"
   ref={sectionRef}
   className="bg-black text-center py-24 md:py-32 px-6"
 >
